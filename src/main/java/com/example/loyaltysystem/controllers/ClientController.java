@@ -49,10 +49,11 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<String> deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Клиент успешно удалён");
     }
+
 
     @PutMapping("/{id}/deduct-bonus")
     public ResponseEntity<CustomResponse> deductBonus(@PathVariable Long id, @RequestBody Map<String, Float> request) {
