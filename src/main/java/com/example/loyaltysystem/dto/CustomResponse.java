@@ -2,13 +2,13 @@ package com.example.loyaltysystem.dto;
 
 public class CustomResponse {
     private String message; // Сообщение о результате операции
-    private float bonusBalance; // Текущий бонусный баланс клиента
+    private Object data; // Данные (ID клиента, бонусный баланс, список клиентов/транзакций)
     private String status; // Статус операции (например, SUCCESS или ERROR)
 
     // Конструктор с тремя аргументами
-    public CustomResponse(String message, float bonusBalance, String status) {
+    public CustomResponse(String message, Object data, String status) {
         this.message = message;
-        this.bonusBalance = bonusBalance;
+        this.data = data;
         this.status = status;
     }
 
@@ -22,14 +22,14 @@ public class CustomResponse {
         this.message = message;
     }
 
-    // Геттер для поля bonusBalance
-    public float getBonusBalance() {
-        return bonusBalance;
+    // Геттер для поля data
+    public Object getData() {
+        return data;
     }
 
-    // Сеттер для поля bonusBalance
-    public void setBonusBalance(float bonusBalance) {
-        this.bonusBalance = bonusBalance;
+    // Сеттер для поля data
+    public void setData(Object data) {
+        this.data = data;
     }
 
     // Геттер для поля status
@@ -47,7 +47,7 @@ public class CustomResponse {
     public String toString() {
         return "CustomResponse{" +
                 "message='" + message + '\'' +
-                ", bonusBalance=" + bonusBalance +
+                ", data=" + data +
                 ", status='" + status + '\'' +
                 '}';
     }

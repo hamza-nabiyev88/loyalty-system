@@ -22,15 +22,27 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
+    public ResponseEntity<CustomResponse> updateClient(@PathVariable Long id, @RequestBody Client updatedClient) {
         Client client = clientService.updateClient(id, updatedClient);
-        return ResponseEntity.ok(client);
+
+        CustomResponse response = new CustomResponse(
+                "Клиент успешно обновлён",
+                client.getId(),
+                "SUCCESS"
+        );
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Client> registerClient(@RequestBody Client client) {
+    public ResponseEntity<CustomResponse> registerClient(@RequestBody Client client) {
         Client savedClient = clientService.registerClient(client);
-        return ResponseEntity.ok(savedClient);
+
+        CustomResponse response = new CustomResponse(
+                "Клиент успешно зарегистрирован",
+                savedClient.getId(),
+                "SUCCESS"
+        );
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/bonus")
@@ -38,36 +50,60 @@ public class ClientController {
         float amount = request.getOrDefault("amount", 0.0f);
         Client updatedClient = clientService.updateBonus(id, amount);
 
-        CustomResponse response = new CustomResponse("Бонус успешно добавлен", updatedClient.getBonusBalance(), "SUCCESS");
+        CustomResponse response = new CustomResponse(
+                "Бонус успешно добавлен",
+                updatedClient.getBonusBalance(),
+                "SUCCESS"
+        );
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients() {
+    public ResponseEntity<CustomResponse> getAllClients() {
         List<Client> clients = clientService.getAllClients();
-        return ResponseEntity.ok(clients);
+
+        CustomResponse response = new CustomResponse(
+                "Список всех клиентов успешно получен",
+                clients,
+                "SUCCESS"
+        );
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<CustomResponse> deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
-        return ResponseEntity.ok("Клиент успешно удалён");
-    }
 
+        CustomResponse response = new CustomResponse(
+                "Клиент успешно удалён",
+                id,
+                "SUCCESS"
+        );
+        return ResponseEntity.ok(response);
+    }
 
     @PutMapping("/{id}/deduct-bonus")
     public ResponseEntity<CustomResponse> deductBonus(@PathVariable Long id, @RequestBody Map<String, Float> request) {
         float amount = request.getOrDefault("amount", 0.0f);
         Client updatedClient = clientService.deductBonus(id, amount);
 
-        // Добавляем третий аргумент "SUCCESS" при создании CustomResponse
-        CustomResponse response = new CustomResponse("Bonus successfully deducted", updatedClient.getBonusBalance(), "SUCCESS");
+        CustomResponse response = new CustomResponse(
+                "Бонус успешно списан",
+                updatedClient.getBonusBalance(),
+                "SUCCESS"
+        );
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<List<Transaction>> getClientTransactions(@PathVariable Long id) {
+    public ResponseEntity<CustomResponse> getClientTransactions(@PathVariable Long id) {
         List<Transaction> transactions = transactionService.getTransactionsByClientId(id);
-        return ResponseEntity.ok(transactions);
+
+        CustomResponse response = new CustomResponse(
+                "Список транзакций клиента успешно получен",
+                transactions,
+                "SUCCESS"
+        );
+        return ResponseEntity.ok(response);
     }
 }
